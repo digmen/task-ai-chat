@@ -5,7 +5,11 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss'],
 
   css: ['~/assets/css/main.css'],
-
+  runtimeConfig: {
+    public: {
+      apiBase: '/api' 
+    }
+  },
   app: {
     head: {
       title: 'Mantis AI Chat',
