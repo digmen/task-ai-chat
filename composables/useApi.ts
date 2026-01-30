@@ -2,7 +2,7 @@ export const useApi = () => {
   const token = useCookie('auth_token'); 
   const config = useRuntimeConfig();
   
-  const BASE_URL = 'http://localhost:5000/api';
+  const BASE_URL = 'http://45.131.186.75:5000/api';
 
   const request = async (endpoint: string, options: any = {}) => {
     const headers = {
