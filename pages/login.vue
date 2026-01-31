@@ -1,8 +1,5 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: false 
-});
-
+definePageMeta({ layout: false });
 const { request } = useApi();
 const token = useCookie('auth_token');
 const router = useRouter();
@@ -13,15 +10,10 @@ const error = ref('');
 const loading = ref(false);
 
 const submit = async () => {
-  loading.value = true;
-  error.value = '';
+  loading.value = true; error.value = '';
   try {
     const endpoint = isLogin.value ? '/auth/login' : '/auth/register';
-    const data: any = await request(endpoint, {
-      method: 'POST',
-      body: form
-    });
-    
+    const data: any = await request(endpoint, { method: 'POST', body: form });
     token.value = data.token;
     router.push('/');
   } catch (e: any) {
@@ -33,13 +25,10 @@ const submit = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-mantis-dark p-4 sm:p-6 transition-all">
+  <div class="h-[100dvh] w-full overflow-hidden flex items-center justify-center bg-mantis-dark p-4 sm:p-6">
     <div class="w-full max-w-md bg-mantis-sidebar p-6 sm:p-8 rounded-2xl shadow-2xl border border-white/5 mx-auto">
       
-      <h1 class="text-2xl sm:text-3xl font-bold text-center mb-2 text-white tracking-tight">
-        Mantis Studio
-      </h1>
-      
+      <h1 class="text-2xl sm:text-3xl font-bold text-center mb-2 text-white tracking-tight">Mantis Studio</h1>
       <p class="text-center text-gray-400 mb-6 sm:mb-8 text-sm sm:text-base">
         {{ isLogin ? 'С возвращением!' : 'Создать аккаунт' }}
       </p>
@@ -47,45 +36,24 @@ const submit = async () => {
       <form @submit.prevent="submit" class="space-y-4 sm:space-y-5">
         <div>
           <label class="block text-sm text-gray-400 mb-1.5 ml-1">Email</label>
-          <input 
-            v-model="form.email" 
-            type="email" 
-            class="w-full bg-mantis-input border border-white/10 rounded-xl p-3 sm:p-3.5 text-base text-white placeholder-gray-500 focus:outline-none focus:border-mantis-primary focus:ring-1 focus:ring-mantis-primary transition-all duration-200"
-            placeholder="name@example.com"
-            required
-          />
+          <input v-model="form.email" type="email" required class="w-full bg-mantis-input border border-white/10 rounded-xl p-3 text-white placeholder-gray-500 focus:outline-none focus:border-mantis-primary transition-all" placeholder="name@example.com" />
         </div>
         
         <div>
           <label class="block text-sm text-gray-400 mb-1.5 ml-1">Пароль</label>
-          <input 
-            v-model="form.password" 
-            type="password" 
-            class="w-full bg-mantis-input border border-white/10 rounded-xl p-3 sm:p-3.5 text-base text-white placeholder-gray-500 focus:outline-none focus:border-mantis-primary focus:ring-1 focus:ring-mantis-primary transition-all duration-200"
-            placeholder="••••••••"
-            required
-          />
+          <input v-model="form.password" type="password" required class="w-full bg-mantis-input border border-white/10 rounded-xl p-3 text-white placeholder-gray-500 focus:outline-none focus:border-mantis-primary transition-all" placeholder="••••••••" />
         </div>
 
-        <div v-if="error" class="text-red-400 text-sm text-center bg-red-500/10 p-3 rounded-xl border border-red-500/20 animate-pulse">
-          {{ error }}
-        </div>
+        <div v-if="error" class="text-red-400 text-sm text-center bg-red-500/10 p-3 rounded-xl border border-red-500/20">{{ error }}</div>
 
-        <button 
-          type="submit" 
-          :disabled="loading"
-          class="w-full bg-mantis-primary hover:bg-blue-600 active:scale-95 text-white font-medium py-3.5 rounded-xl transition-all shadow-lg shadow-blue-900/20 disabled:opacity-50 disabled:scale-100 flex justify-center items-center mt-2"
-        >
+        <button type="submit" :disabled="loading" class="w-full bg-mantis-primary hover:bg-blue-600 text-white font-medium py-3.5 rounded-xl transition-all shadow-lg flex justify-center items-center">
           <span v-if="loading" class="animate-spin mr-2">⌛</span>
           <span v-else>{{ isLogin ? 'Войти' : 'Зарегистрироваться' }}</span>
         </button>
       </form>
 
-      <div class="mt-6 sm:mt-8 text-center">
-        <button 
-          @click="isLogin = !isLogin"
-          class="text-sm text-gray-400 hover:text-white transition-colors py-2 px-4 rounded-lg hover:bg-white/5"
-        >
+      <div class="mt-6 text-center">
+        <button @click="isLogin = !isLogin" class="text-sm text-gray-400 hover:text-white transition-colors">
           {{ isLogin ? 'Нет аккаунта? Регистрация' : 'Уже есть аккаунт? Вход' }}
         </button>
       </div>
