@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Анимация перехода страниц */
 .page-enter-active,
 .page-leave-active {
     transition: all 0.3s;
@@ -14,7 +13,6 @@
     filter: blur(1rem);
 }
 
-/* Скроллбар */
 ::-webkit-scrollbar {
     width: 8px;
 }

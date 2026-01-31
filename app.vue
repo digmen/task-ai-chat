@@ -21,8 +21,8 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.1); /* Полупрозрачный белый */
-  border-radius: 10px; /* Круглые края */
+  background-color: rgba(255, 255, 255, 0.1); 
+  border-radius: 10px; 
   transition: background-color 0.2s;
 }
 

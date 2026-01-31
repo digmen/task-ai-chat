@@ -1,13 +1,13 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: false // Убираем сайдбар на странице входа
+  layout: false 
 });
 
 const { request } = useApi();
 const token = useCookie('auth_token');
 const router = useRouter();
 
-const isLogin = ref(true); // Переключатель Вход/Регистрация
+const isLogin = ref(true);
 const form = reactive({ email: '', password: '' });
 const error = ref('');
 const loading = ref(false);

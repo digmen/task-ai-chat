@@ -7,10 +7,9 @@ const token = useCookie('auth_token');
 const router = useRouter();
 
 const chats = ref<any[]>([]);
-const isSidebarOpen = ref(true); // По умолчанию открыто
+const isSidebarOpen = ref(true);
 const isMobile = ref(false);
 
-// Глобальный триггер обновления
 const chatRefreshTrigger = useState<number>('chatRefresh', () => 0);
 
 const fetchChats = async () => {
@@ -23,11 +22,9 @@ const fetchChats = async () => {
   }
 };
 
-// Проверяем ширину экрана при загрузке
 onMounted(() => {
   if (token.value) fetchChats();
   
-  // Если экран маленький, сразу закрываем меню
   if (window.innerWidth < 768) {
     isSidebarOpen.value = false;
     isMobile.value = true;
@@ -49,11 +46,9 @@ const logout = () => {
 
 const createNewChat = () => {
   router.push('/');
-  // На мобильном закрываем меню после клика
   if (window.innerWidth < 768) isSidebarOpen.value = false;
 };
 
-// Функция для перехода в чат (чтобы закрывать меню на мобилке)
 const openChat = (id: number) => {
   if (window.innerWidth < 768) isSidebarOpen.value = false;
 };
@@ -139,7 +134,6 @@ const openChat = (id: number) => {
 </template>
 
 <style scoped>
-/* Скрываем скроллбар в списке чатов для красоты */
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
 }

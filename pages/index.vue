@@ -13,7 +13,6 @@ const input = ref('');
 const loading = ref(false);
 const isRecording = ref(false);
 
-// Ссылка на скролл-контейнер
 const chatContainer = ref<HTMLElement | null>(null);
 
 const isExpanded = ref(false);
@@ -29,7 +28,6 @@ const loadChat = async () => {
   try {
     const data: any = await request(`/chat/${chatId}`);
     messages.value = data;
-    // При загрузке скроллим мгновенно (без анимации)
     scrollToBottom(false);
   } catch (e) {
     console.error(e);
@@ -38,13 +36,12 @@ const loadChat = async () => {
 
 watch(() => route.query.chatId, loadChat, { immediate: true });
 
-// Функция скролла
 const scrollToBottom = async (smooth = true) => {
-  await nextTick(); // Ждем, пока Vue обновит DOM (отрисует новое сообщение)
+  await nextTick(); 
   
   if (chatContainer.value) {
     chatContainer.value.scrollTo({
-      top: chatContainer.value.scrollHeight, // Скроллим в самый низ
+      top: chatContainer.value.scrollHeight,
       behavior: smooth ? 'smooth' : 'auto'
     });
   }
@@ -60,7 +57,6 @@ const sendMessage = async () => {
   loading.value = true;
 
   messages.value.push({ role: 'user', content: userText });
-  // Скроллим плавно после добавления сообщения юзера
   scrollToBottom(true);
 
   try {
@@ -76,7 +72,6 @@ const sendMessage = async () => {
     }
 
     messages.value.push(res.aiMessage);
-    // Скроллим плавно после ответа бота
     scrollToBottom(true);
   } catch (e) {
     messages.value.push({ role: 'assistant', content: 'Ошибка сервера :(' });
@@ -86,35 +81,28 @@ const sendMessage = async () => {
   }
 };
 
-// Голосовой ввод (Web Speech API)
 const toggleMic = () => {
-  // 1. Проверка поддержки браузером
   const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
   if (!SpeechRecognition) {
     return alert('Ваш браузер не поддерживает голосовой ввод. Попробуйте Chrome или Safari.');
   }
 
-  // 2. Настройка распознавания
   const recognition = new SpeechRecognition();
-  recognition.lang = 'ru-RU'; // Понимаем русский язык
-  recognition.interimResults = false; // Ждем завершения фразы, чтобы не мелькало
+  recognition.lang = 'ru-RU';
+  recognition.interimResults = false; 
   
-  // Если уже пишем — останавливаем
   if (isRecording.value) {
     recognition.stop();
     isRecording.value = false;
     return;
   }
 
-  // Запуск записи
   isRecording.value = true;
   recognition.start();
 
-  // 3. Когда голос распознан
   recognition.onresult = (event: any) => {
     const transcript = event.results[0][0].transcript;
     
-    // Умное добавление пробела: если в поле уже есть текст и он не заканчивается пробелом
     if (input.value && !input.value.endsWith(' ')) {
       input.value += ' ' + transcript;
     } else {
@@ -124,7 +112,6 @@ const toggleMic = () => {
     isRecording.value = false;
   };
 
-  // Обработка ошибок и конца записи
   recognition.onerror = (event: any) => {
     console.error('Ошибка Voice API:', event.error);
     isRecording.value = false;
